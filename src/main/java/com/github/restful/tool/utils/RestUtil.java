@@ -12,6 +12,7 @@ package com.github.restful.tool.utils;
 
 import com.github.restful.tool.beans.Request;
 import com.github.restful.tool.utils.scanner.JaxrsHelper;
+import com.github.restful.tool.utils.scanner.RoseHelper;
 import com.github.restful.tool.utils.scanner.SpringHelper;
 import com.intellij.lang.jvm.annotation.*;
 import com.intellij.openapi.module.Module;
@@ -115,7 +116,7 @@ public class RestUtil {
         if (psiClass == null) {
             return false;
         }
-        return SpringHelper.hasRestful(psiClass) || JaxrsHelper.hasRestful(psiClass);
+        return RoseHelper.hasRestful(psiClass) || SpringHelper.hasRestful(psiClass) || JaxrsHelper.hasRestful(psiClass);
     }
 
     @NotNull
@@ -124,6 +125,9 @@ public class RestUtil {
             return Collections.emptyList();
         }
         List<Request> requests;
+        if (!(requests = RoseHelper.getRequests(psiClass)).isEmpty()) {
+            return requests;
+        }
         if (!(requests = SpringHelper.getRequests(psiClass)).isEmpty()) {
             return requests;
         }
@@ -278,7 +282,8 @@ public class RestUtil {
         try {
             ModuleManager manager = ModuleManager.getInstance(project);
             for (Module module : manager.getModules()) {
-                if (SpringHelper.isRestfulProject(project, module)
+                if (RoseHelper.isRestfulProject(project,module)
+                        || SpringHelper.isRestfulProject(project, module)
                         || JaxrsHelper.isRestfulProject(project, module)) {
                     return true;
                 }

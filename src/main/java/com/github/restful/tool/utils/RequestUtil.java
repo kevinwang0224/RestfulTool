@@ -12,6 +12,7 @@ package com.github.restful.tool.utils;
 
 import com.github.restful.tool.beans.Request;
 import com.github.restful.tool.utils.scanner.JaxrsHelper;
+import com.github.restful.tool.utils.scanner.RoseHelper;
 import com.github.restful.tool.utils.scanner.SpringHelper;
 import com.intellij.openapi.module.Module;
 import com.intellij.openapi.module.ModuleManager;
@@ -85,6 +86,12 @@ public class RequestUtil {
     @NotNull
     public static List<Request> getModuleRequests(@NotNull Project project, @NotNull Module module) {
         List<Request> requests = new ArrayList<>();
+
+        // Rose RESTFul方式
+        List<Request> roseRequestByModule = RoseHelper.getRoseRequestByModule(project, module);
+        if (!roseRequestByModule.isEmpty()) {
+            requests.addAll(roseRequestByModule);
+        }
 
         // JAX-RS方式
         List<Request> jaxrsRequestByModule = JaxrsHelper.getJaxrsRequestByModule(project, module);
