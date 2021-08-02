@@ -81,7 +81,7 @@
         <action id="Tool.GotoRequestService"
                 class="com.github.restful.tool.view.search.GotoRequestAction">
             <add-to-group group-id="GoToTargetEx" anchor="first"/>
-            <keyboard-shortcut keymap="$default" first-keystroke="ctrl alt SLASH"/>
+            <keyboard-shortcut keymap="$default" first-keystroke="ctrl BACK_SLASH"/>
         </action>
 
         <action id="RestfulTool.action.OptionForEditor-CurrentClassTree"
